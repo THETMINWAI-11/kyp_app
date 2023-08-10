@@ -12,10 +12,9 @@ import java.util.stream.StreamSupport;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.khayayphyu.dao.impl.GenericDaoImpl;
+import com.khayayphyu.dao.GenericDao;
 import com.khayayphyu.dto.AbstractDto;
 import com.khayayphyu.entity.AbstractEntity;
 import com.khayayphyu.service.AbstractService;
@@ -23,13 +22,11 @@ import com.khayayphyu.service.search.SearchRequest;
 import com.khayayphyu.utils.CommonUtils;
 
 
-@Component
-@Transactional(readOnly = true)
 public abstract class AbstractServiceImpl<T extends AbstractEntity, D extends AbstractDto<T>>
 		implements AbstractService<T, D> {
 	
-	@Autowired
-	private GenericDaoImpl genericDao;
+	//@Autowired
+	private GenericDao genericDao;
 
 	public Stream<T> toStream(Iterable<T> list) {
 		return StreamSupport.stream(list.spliterator(), false);
