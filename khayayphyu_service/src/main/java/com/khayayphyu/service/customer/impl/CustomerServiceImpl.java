@@ -18,6 +18,7 @@ import com.khayayphyu.service.search.CustomerSearchRequest;
 @Service
 public class CustomerServiceImpl extends AbstractServiceImpl<Customer, CustomerDto> implements CustomerService{
 
+	@Autowired
 	private CustomerDao customerDao;
 	
 	@Autowired
