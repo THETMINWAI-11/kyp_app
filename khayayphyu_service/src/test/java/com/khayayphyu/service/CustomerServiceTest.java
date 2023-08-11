@@ -12,6 +12,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
+import com.khayayphyu.dao.customer.CustomerDao;
 import com.khayayphyu.dto.customer.CustomerDto;
 import com.khayayphyu.entity.customer.Customer;
 import com.khayayphyu.service.customer.CustomerService;
@@ -24,6 +25,9 @@ import com.khayayphyu.service.customer.CustomerService;
 @PropertySource(value = { "classpath:application.properties" })
 public class CustomerServiceTest {
 
+	@Autowired
+	private CustomerDao customerDao;
+	
 	@Autowired
 	private CustomerService customerService;
 	

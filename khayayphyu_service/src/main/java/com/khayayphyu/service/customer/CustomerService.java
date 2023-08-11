@@ -8,7 +8,6 @@ import com.khayayphyu.service.AbstractService;
 import com.khayayphyu.service.search.CustomerSearchRequest;
 
 public interface CustomerService extends AbstractService<Customer, CustomerDto> {
-	public CustomerDto saveAndGet(CustomerDto customer);
 
 	public List<CustomerDto> search(CustomerSearchRequest searchRequest);
 }
