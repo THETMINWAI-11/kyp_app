@@ -18,8 +18,8 @@
 		<module>khayayphyu_dto</module>
 		<module>khayayphyu_dao</module>
 		<module>khayayphyu_service</module>
-		<module>khayayphyu_controller</module>
 		<module>khayayphyu_util</module>
+		<module>khayayphyu_controller</module>
 	</modules>
 	<description>Demo project for Spring Boot</description>
 	<properties>

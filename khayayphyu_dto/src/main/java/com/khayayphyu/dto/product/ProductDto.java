@@ -10,10 +10,10 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode(callSuper = true)
 public class ProductDto extends AbstractDto<Product> {
 
-	private String name;
+	private String productName;
 	private SalePriceDto salePrice;
 	private int quantity;
 	private PurchasePriceDto purchasePrice;
@@ -23,7 +23,7 @@ public class ProductDto extends AbstractDto<Product> {
 	public Product toEntity() {
 		Product product = new Product();
 		product.setId(getId());
-		product.setProductName(name);
+		product.setProductName(productName);
 		product.setProductType(type);
 		product.setPurchasePrice(purchasePrice == null ? null : PurchasePriceDto.createFromId(purchasePrice.getId()).toEntity());
 		product.setSalePrice(salePrice == null ? null : SalePriceDto.createFromId(salePrice.getId()).toEntity());
@@ -33,7 +33,7 @@ public class ProductDto extends AbstractDto<Product> {
 	public static ProductDto create(Product product) {
 		ProductDto productDto = new ProductDto();
 		productDto.setId(product.getId());
-		productDto.name = product.getProductName();
+		productDto.productName = product.getProductName();
 		productDto.purchasePrice = PurchasePriceDto.create(product.getPurchasePrice());
 		productDto.salePrice = SalePriceDto.create(product.getSalePrice());
 		productDto.type = product.getProductType();

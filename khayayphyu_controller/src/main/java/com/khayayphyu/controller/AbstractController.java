@@ -1,37 +1,98 @@
 package com.khayayphyu.controller;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
+import org.springframework.stereotype.Component;
+import org.springframework.ui.Model;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import com.khayayphyu.utils.Constants;
 
-@RestController
-public class AbstractController {
-	private static final Logger logger = LogManager.getLogger(AbstractController.class);
+import jakarta.servlet.http.HttpServletResponse;
 
 
-	@RequestMapping(value = "/**", method = RequestMethod.OPTIONS)
+@Component
+public abstract class AbstractController {
 
-	public ResponseEntity handle() {
-		return new ResponseEntity(HttpStatus.OK);
+	@Autowired
+	private Environment environment;
+
+	protected void createPage(String pageName, Model model) {
+		model.addAttribute("pageName", pageName);
+		model.addAttribute("title", "Shwe Me logistic");
 	}
 
-	protected Date convertToDate(String dateStr, String format) {
+//	public LoginUserDto getActiveLoginUser() {
+//		String loginId = (String) httpSession.getAttribute(LoginController.sessionKey);
+//		Optional<LoginUserDto> result = loginUserService.getLoginUserByName(loginId);
+//		return result.isPresent() ? result.get() : null;
+//	}
 
-		DateFormat df = new SimpleDateFormat(format);
-		try {
-			return df.parse(dateStr);
-		} catch (ParseException e) {
-			logger.error(e);
-		}
-		return null;
+//	protected boolean isEditable(TruckOrderDto truckOrderDto) {
+//		return truckOrderDto.getCreatedUserDto().getUsername().equals(httpSession.getAttribute(LoginController.sessionKey));
+//	}
+
+//	protected void setupOrderSearchPage(Model model, List<TruckOrderDto> dataSupplier) {
+//		Function<TruckOrderDto, Boolean> test = this::isEditable;
+//		model.addAttribute("authorize", test);
+//		model.addAttribute("orderList", dataSupplier);
+//		model.addAttribute("truckGroupList", truckGroupService.getAll());
+//		model.addAttribute("searchRequest", new TruckOrderService.SearchRequest());
+//	}
+
+	protected void errorDialog(Model model, String message) {
+		model.addAttribute("frmMessage", String.format("error|%s", message));
 	}
+
+	protected void successDialog(Model model, String message) {
+		model.addAttribute(Constants.FORM_MSG_KEY, Constants.MSG_PREFIX_SUCCESS + message);
+	}
+	
+//	protected void writeWorkbook(Workbook workbook, String name, HttpServletResponse response) {
+//		renameHttpResponseName(name, response);
+//		writeToHttpResponse(workbook, response);
+//	}
+
+	public void renameHttpResponseName(String name, HttpServletResponse response) {
+		String str = String.format("attachment; filename=\"%s\"", name);
+		response.setHeader("Content-Disposition", str);
+	}
+
+	// to bypass aop check :)
+//	@ResponseBody
+//	public void writeToHttpResponse(Workbook workbook, HttpServletResponse response) {
+//		try {
+//			workbook.write(response.getOutputStream());
+//			workbook.close();
+//		} catch (Exception e) {
+//			logger.error("Can't write Excel to Response ", e);
+//		}
+//	}
+
+//	public String getServerBasePath() {
+//		return servletContext.getRealPath("/");
+//	}
+
+//	protected String getLocalName() {
+//		return getHttpServletRequest().getContextPath();
+//	}
+
+//	private HttpServletRequest getHttpServletRequest() {
+//		return ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+//	}
+
+	public String getMessage(String key) {
+		if (StringUtils.isBlank(key))
+			return "";
+		String message = environment.getProperty(key);
+		return StringUtils.isBlank(message) ? key : message;
+	}
+	
+//	protected Workbook createWorkbook(String sheetName, Consumer<Sheet> apply) {
+//		Workbook workbook = new XSSFWorkbook();
+//		Sheet sheet = workbook.createSheet(sheetName);
+//		apply.accept(sheet);
+//		return workbook;
+//	}
+	
 }

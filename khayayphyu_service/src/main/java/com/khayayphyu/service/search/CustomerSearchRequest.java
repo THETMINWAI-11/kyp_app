@@ -10,7 +10,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = false)
 public class CustomerSearchRequest extends AbstractSearchRequest<Customer, CustomerDto> {
 	
-	private String name;
+	private String customerName;
 	private StringBuffer buffer;
 	
 	@Override
@@ -27,7 +27,7 @@ public class CustomerSearchRequest extends AbstractSearchRequest<Customer, Custo
 	}
 	
 	private void addName() {
-		buffer.append(" and upper(v.name) like upper('%" + name + "')");
+		buffer.append(" and upper(c.name) like upper('%" + customerName + "')");
 	}
 
 }

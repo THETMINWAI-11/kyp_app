@@ -17,7 +17,7 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @JsonView(SummaryView.class)
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode(callSuper = true)
 public class SalePriceDto extends AbstractDto<SalePrice> {
 
 	private Product product;

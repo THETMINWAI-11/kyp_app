@@ -3,8 +3,10 @@ package com.khayayphyu.entity.sale;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
 import com.khayayphyu.entity.AbstractEntity;
 import com.khayayphyu.entity.product.Product;
+import com.khayayphyu.utils.views.SummaryView;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -35,6 +37,10 @@ public class SaleOrder extends AbstractEntity{
 
 	@Column(name = "weight")
 	private double weight;
+	
+	@JsonView(SummaryView.class)
+	@Column(name = "price")
+	private int price;
 
 	@Column(name = "quantity")
 	private double quantity;

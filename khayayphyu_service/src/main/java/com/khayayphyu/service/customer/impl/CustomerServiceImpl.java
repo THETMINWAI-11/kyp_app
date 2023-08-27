@@ -44,10 +44,10 @@ public class CustomerServiceImpl extends AbstractServiceImpl<Customer, CustomerD
 		return CustomerDto::create;
 	}
 	
+	@Override
 	public CustomerDto getDetail(Long id) {
 		Customer entity = customerDao.getByCustomerId(id);
 		return entity != null ? CustomerDto.create(entity) : null;
 	}
-	
 
 }
