@@ -11,14 +11,32 @@
 	<packaging>war</packaging>
 	<dependencies>
 		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>com.khayayphyu</groupId>
 			<artifactId>khayayphyu_service</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
 			<version>1.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.tiles</groupId>
+			<artifactId>tiles-core</artifactId>
+			<version>3.0.8</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.tiles</groupId>
+			<artifactId>tiles-jsp</artifactId>
+			<version>3.0.8</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -31,17 +49,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.apache.tiles</groupId>
-			<artifactId>tiles-jsp</artifactId>
-			<version>3.0.8</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.tiles</groupId>
 			<artifactId>tiles-servlet</artifactId>
-			<version>3.0.8</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.tiles</groupId>
-			<artifactId>tiles-core</artifactId>
 			<version>3.0.8</version>
 		</dependency>
 		<dependency>
@@ -54,13 +62,6 @@
 			<artifactId>tiles-request-api</artifactId>
 			<version>1.0.6</version>
 		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-webmvc</artifactId>
-			<version>5.1.3.RELEASE</version>
-		</dependency>
-		<!-- Thanks for using https://jar-download.com -->
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
@@ -95,6 +96,12 @@
 			<id>create</id>
 			<properties>
 				<spring.profiles.active>create</spring.profiles.active>
+			</properties>
+		</profile>
+		<profile>
+			<id>mockdb</id>
+			<properties>
+				<spring.profiles.active>mockdb</spring.profiles.active>
 			</properties>
 		</profile>
 	</profiles>

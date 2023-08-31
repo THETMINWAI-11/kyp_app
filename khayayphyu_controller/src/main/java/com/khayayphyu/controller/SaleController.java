@@ -1,7 +1,5 @@
 package com.khayayphyu.controller;
 
-import javax.naming.ServiceUnavailableException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,8 +9,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.khayayphyu.controller.util.RequiredPermission;
 import com.khayayphyu.dto.sale.SaleDto;
-import com.khayayphyu.dto.sale.SaleOrderDto;
-import com.khayayphyu.dto.sale.SalePriceDto;
 import com.khayayphyu.service.sale.SaleOrderService;
 import com.khayayphyu.service.sale.SalePriceService;
 import com.khayayphyu.service.sale.SaleService;

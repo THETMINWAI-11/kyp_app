@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+	<link rel="stylesheet" type="text/css" href="resources/css/vendor.min.css"/>
+	
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400italic,500,700">
+	<link rel="stylesheet" type="text/css" href="/resources/css/elephant.min.css"/>
+	<link rel="stylesheet" type="text/css" href="/resources/css/application.min.css"/>
+	<link rel="stylesheet" type="text/css" href="/resources/css/font-awesome.min.css"/>
+	<link rel="stylesheet" type="text/css" href="/resources/css/demo.min.css"/>
+	<link rel="stylesheet" type="text/css" href="/resources/css/common.css"/>
+	
+	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
+	<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/sweetalert2@7.12.15/dist/sweetalert2.min.css'></link>
+<style>
+	.select2-selection--single {
+		height: inherit !important;
+	}
+</style>
+</head>
+<meta charset="ISO-8859-1">
+<title>Kha Yay Phyu</title>
+<body>
+	<div th:replace="~{left-menu}"></div>
+	<div th:replce="~{theme}" ></div>
+	<div class="layout-content">
+		<div class="layout-content-body">
+			<div th:replace="~{${page}}"></div>
+		</div>
+	</div>
+	
+</body>
+
+<script src="/resources/js/ckeditor/ckeditor.js"></script>
+<script src="/resources/js/vendor.min.js"></script>
+<script src="/resources/js/elephant.min.js"></script>
+<script src="/resources/js/application.min.js"></script>
+
+<script src="/resources/js/demo.min.js"></script>
+<script src="/resources/js/common.js"></script>
+<script src="/resources/js/image-preview.js"></script>
+<script src="/resources/js/printThis.js"></script>
+<script src="/resources/js/charthelper.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@7.12.15/dist/sweetalert2.all.min.js"></script>
+</html>

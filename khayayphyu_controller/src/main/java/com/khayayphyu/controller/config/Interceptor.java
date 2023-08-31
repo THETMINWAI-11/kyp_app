@@ -1,10 +1,9 @@
 package com.khayayphyu.controller.config;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -23,11 +22,8 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.khayayphyu.dao.user.UserDao;
 import com.khayayphyu.dto.security.MenuDto;
-import com.khayayphyu.entity.user.User;
 import com.khayayphyu.service.security.MenuService;
-import com.khayayphyu.utils.CommonUtils;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -44,32 +40,46 @@ public class Interceptor {
 
 	@Autowired
 	private MenuService menuService;
-	
-	@Autowired
-	private UserDao userDao;
 
 	private static List<MenuDto> allMenuList;
 
-	@Around(" (within(com.sm.logistic.controller.*) || within(com.sm.logistic.controller.dashboard.*)) && !(within (com.sm.logistic.controller.test.*))")
+	//login is disabled.
+	@Around("within(com.khayayphyu.controller.*)")
 	public Object requestInterceptor(ProceedingJoinPoint pjp) throws Throwable {
-		String loginId = (String) httpSession.getAttribute("loginId");
-		if (loginId == null)
-			return "redirect:/login";
-
-		HttpServletRequest request = retrieveHttpServletFromLocalThread();
-
-		return isNeedToRedirect(request) ? continueWithRedirect(pjp, getRedirectPath(request))
-				: continueNormalProcedure(pjp);
+		Model model = null;
+		Object[] arguments = pjp.getArgs();
+		for (Object argument : arguments) {
+			if (argument instanceof Model) {
+				model = (Model) argument;
+			}
+		}
+		
+		Object obj = continueNormalProcedure(pjp);
+		Method method =  ((MethodSignature) pjp.getSignature()).getMethod();
+		ResponseBody responseBody = method.getAnnotation(ResponseBody.class);
+		if(responseBody != null)
+			return responseBody;
+		
+		String page = (String) obj;
+		if(model != null ) {
+			model.addAttribute("page", page);
+		}
+		
+		return "index";
 	}
 
+
+	@SuppressWarnings("unused")
 	private HttpServletRequest retrieveHttpServletFromLocalThread() {
 		return ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
 	}
 
+	@SuppressWarnings("unused")
 	private String getRedirectPath(HttpServletRequest httpServletRequest) {
 		return httpServletRequest.getParameter("redirect");
 	}
 
+	@SuppressWarnings("unused")
 	private boolean isNeedToRedirect(HttpServletRequest httpServletRequest) {
 		String redirectPath = httpServletRequest.getParameter("redirect");
 		return StringUtils.isNotBlank(redirectPath);
@@ -98,6 +108,7 @@ public class Interceptor {
 		throw new IllegalAccessError("Model need to add to parameter. >> " + signature.getName());
 	}
 
+	@SuppressWarnings("unused")
 	private Object continueWithRedirect(ProceedingJoinPoint pjp, String redirectPath) throws Throwable {
 		continueNormalProcedure(pjp);
 		return "redirect:" + redirectPath;
@@ -119,11 +130,7 @@ public class Interceptor {
 	}
 
 	private List<MenuDto> getAllowedMenu() {
-		User activeLoginuser = getActiveLoginUser();
-		if (activeLoginuser.isAdministrator())
-			return allMenuList;
-
-		return CommonUtils.mapToList(userProfile.getMenuList(), MenuDto::create);
+		return allMenuList;
 	}
 
 	private List<MenuDto> addChildMenu(List<MenuDto> menuList, List<MenuDto> parentMenu) {
@@ -149,21 +156,7 @@ public class Interceptor {
 		return ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
 	}
 
-	private User getActiveLoginUser() {
-		String loginId = (String) httpSession.getAttribute(User.sessionKey);
-		Optional<User> result = userDao.getByUserName(loginId);
-		return result.isPresent() ? result.get() : null;
-	}
-
 	private List<MenuDto> applyMenuSuffix(List<MenuDto> menuList) {
-		return menuList.stream().map(menu -> {
-			if (menu.getPermission().equals("advance-expense-expense-setup")) {
-				menu = MenuDto.create(menu.toEntity());
-				menu.setName(menu.getName() + " <span class=badge>"
-						+ deliveryOrderService.countDeliveryOrderForExpense() + "</span>");
-				return menu;
-			}
-			return menu;
-		}).collect(Collectors.toList());
+		return menuList;
 	}
 }

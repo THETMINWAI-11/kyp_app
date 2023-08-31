@@ -1,0 +1,79 @@
+.form-horizontal .control-label {
+	text-align: left;
+}
+
+.card-body {
+	padding: 30px;
+}
+
+.fieldset-row {
+	padding: 10px 20px 10px 20px;
+}
+
+fieldset {
+	border: 1px solid #989898 !important;
+	margin: 0;
+	xmin-width: 0;
+	padding: 10px;
+	position: relative;
+	border-radius: 5px;
+	padding-left: 10px !important;
+}
+
+legend {
+	font-size: 14px;
+	margin-bottom: 0px;
+	width: auto;
+	padding: 5px 5px 5px 10px;
+	border-bottom: none;
+}
+
+.print-driver-qr-div {
+	min-width: 250px;
+	max-width: 250px;
+}
+
+.print-driver-qr-div>div {
+	border: #454C6E 2px solid;
+}
+
+.print-driver-qr-div>div>img:first-child {
+	border-bottom: #454C6E 2px solid;
+}
+
+.img-popup {
+	width: 200px;
+	cursor: pointer;
+}
+
+.driver-qr-code-driver-name {
+	position: absolute;
+    font-size: 10px;
+    top: 233px;
+    float: right;
+    margin-left: 5px;
+    color: #303292;
+}
+
+.p-0 {
+	padding: 0 !important;
+}
+
+.pl-0 {
+	padding-left: 0 !important;
+}
+
+.pr-0 {
+	padding-right: 0 !important;
+}
+.pt-0 {
+	padding-top: 0 !important;
+}
+
+.insurance-replacement-driver-search-popup {
+	width: 80%;
+}
+
+.label-td {
+	background-color: #eee;
+}
