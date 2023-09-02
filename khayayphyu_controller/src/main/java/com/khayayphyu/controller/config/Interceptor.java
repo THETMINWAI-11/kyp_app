@@ -9,6 +9,8 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -42,7 +44,7 @@ public class Interceptor {
 	private MenuService menuService;
 
 	private static List<MenuDto> allMenuList;
-
+	
 	//login is disabled.
 	@Around("within(com.khayayphyu.controller.*)")
 	public Object requestInterceptor(ProceedingJoinPoint pjp) throws Throwable {
@@ -119,7 +121,6 @@ public class Interceptor {
 		if (CollectionUtils.isEmpty(allMenuList)) {
 			allMenuList = menuService.getAll();
 		}
-
 		List<MenuDto> parentMenuList = getParentMenu(allMenuList);
 		List<MenuDto> menuList = addChildMenu(getAllowedMenu(), parentMenuList);
 		return applyMenuSuffix(menuList);
