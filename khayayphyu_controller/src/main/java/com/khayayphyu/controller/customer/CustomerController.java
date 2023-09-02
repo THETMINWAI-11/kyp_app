@@ -11,13 +11,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.khayayphyu.controller.AbstractController;
 import com.khayayphyu.controller.util.RequiredPermission;
+import com.khayayphyu.entity.customer.Customer;
 import com.khayayphyu.service.customer.CustomerService;
 import com.khayayphyu.service.search.CustomerSearchRequest;
 import com.khayayphyu.utils.type.CustomerStatus;
 
 import jakarta.servlet.http.HttpServletRequest;
-
-import com.khayayphyu.dto.customer.CustomerDto;
 
 @Controller
 @RequestMapping("customer")
@@ -31,13 +30,13 @@ public class CustomerController extends AbstractController {
 	public String getCustomerSetup(@RequestParam(value = "id", defaultValue = "0", required = false) Long id,
 			Model model) {
 		if (id.longValue() > 0) {
-			CustomerDto customerDto = customerService.getDetail(id);
+			Customer customerDto = customerService.getDetail(id);
 			model.addAttribute("customerDto", customerDto);
 			model.addAttribute("status", CustomerStatus.values());
 			createPage("Customer Edit", model);
 		} else {
 			createPage("Customer Setup", model);
-			CustomerDto customerDto = new CustomerDto();
+			Customer customerDto = new Customer();
 			model.addAttribute("customerDto", customerDto);
 			model.addAttribute("status", CustomerStatus.values());
 		}
@@ -46,7 +45,7 @@ public class CustomerController extends AbstractController {
 	}
 
 	@PostMapping("/setup")
-	public String postCustomerSetup(@ModelAttribute("customerDto") CustomerDto customerDto, Model model) {
+	public String postCustomerSetup(@ModelAttribute("customerDto") Customer customerDto, Model model) {
 		customerService.save(customerDto);
 		return getCustomerSetup(customerDto.getId(), model);
 	}

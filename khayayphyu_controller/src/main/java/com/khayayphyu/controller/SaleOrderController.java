@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.khayayphyu.controller.util.RequiredPermission;
-import com.khayayphyu.dto.sale.SaleOrderDto;
+import com.khayayphyu.entity.sale.SaleOrder;
 import com.khayayphyu.service.sale.SaleOrderService;
 import com.khayayphyu.service.search.SaleOrderSearchRequest;
 
@@ -27,12 +27,12 @@ public class SaleOrderController extends AbstractController {
 	@RequiredPermission("sale-order-setup")
 	public String getSaleOrderSetup(@RequestParam(value = "id", defaultValue = "0", required = false)Long id, Model model) {
 		if(id.longValue() > 0) {
-			SaleOrderDto saleOrderDto = saleOrderService.get(id);
+			SaleOrder saleOrderDto = saleOrderService.get(id);
 			model.addAttribute("saleOrderDto", saleOrderDto);
 			createPage("SaleOrder Edit", model);
 		}else {
 			createPage("SaleOrder Setup", model);
-			SaleOrderDto saleOrderDto = new SaleOrderDto();
+			SaleOrder saleOrderDto = new SaleOrder();
 			model.addAttribute("saleOrderDto", saleOrderDto);
 		}
 		model.addAttribute("saleOrderList", saleOrderService.getAll());
@@ -40,7 +40,7 @@ public class SaleOrderController extends AbstractController {
 	}
 	
 	@PostMapping("/setup")
-	public String postSaleOrderSetup(@ModelAttribute("saleOrderDto")SaleOrderDto saleOrderDto, Model model) {
+	public String postSaleOrderSetup(@ModelAttribute("saleOrderDto") SaleOrder saleOrderDto, Model model) {
 		saleOrderService.save(saleOrderDto);
 		return getSaleOrderSetup(saleOrderDto.getId(), model);
 	}

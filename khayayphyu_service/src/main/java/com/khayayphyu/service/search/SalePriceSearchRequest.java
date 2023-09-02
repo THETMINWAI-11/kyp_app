@@ -4,7 +4,6 @@ import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import com.khayayphyu.dto.sale.SalePriceDto;
 import com.khayayphyu.entity.sale.SalePrice;
 import com.khayayphyu.utils.date.DateUtil;
 
@@ -13,7 +12,7 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class SalePriceSearchRequest implements SearchRequest<SalePrice, SalePriceDto> {
+public class SalePriceSearchRequest implements SearchRequest<SalePrice> {
 	@DateTimeFormat(pattern = DateUtil.uiDateFormatStr)
 	private Date startDate;
 	

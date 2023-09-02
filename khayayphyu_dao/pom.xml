@@ -14,11 +14,6 @@
 			<artifactId>khayayphyu_entity</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
-		<dependency>
-			<groupId>com.khayayphyu</groupId>
-			<artifactId>khayayphyu_dto</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
 	</dependencies>
 	<build>
 		<plugins>

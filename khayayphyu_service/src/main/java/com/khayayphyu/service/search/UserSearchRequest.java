@@ -1,6 +1,5 @@
 package com.khayayphyu.service.search;
 
-import com.khayayphyu.dto.user.UserDto;
 import com.khayayphyu.entity.user.User;
 
 import lombok.Data;
@@ -8,7 +7,7 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class UserSearchRequest implements SearchRequest<User, UserDto> {
+public class UserSearchRequest implements SearchRequest<User> {
 	
 	private String name;
 	private StringBuffer buffer;

@@ -15,7 +15,6 @@
 	<name>khayayphyu</name>
 	<modules>
 		<module>khayayphyu_entity</module>
-		<module>khayayphyu_dto</module>
 		<module>khayayphyu_dao</module>
 		<module>khayayphyu_service</module>
 		<module>khayayphyu_util</module>

@@ -4,7 +4,6 @@ import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import com.khayayphyu.dto.purchase.PurchaseOrderDto;
 import com.khayayphyu.entity.purchase.PurchaseOrder;
 import com.khayayphyu.utils.date.DateUtil;
 
@@ -13,7 +12,7 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class PurchaseOrderSearchRequest implements SearchRequest<PurchaseOrder, PurchaseOrderDto> {
+public class PurchaseOrderSearchRequest implements SearchRequest<PurchaseOrder> {
 
 	@DateTimeFormat(pattern = DateUtil.uiDateFormatStr)
 	private Date startDate;

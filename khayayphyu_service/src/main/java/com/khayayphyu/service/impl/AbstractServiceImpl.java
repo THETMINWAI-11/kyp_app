@@ -1,5 +1,6 @@
 package com.khayayphyu.service.impl;
 
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -16,7 +17,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.khayayphyu.dao.GenericDao;
-import com.khayayphyu.dto.AbstractDto;
 import com.khayayphyu.entity.AbstractEntity;
 import com.khayayphyu.service.AbstractService;
 import com.khayayphyu.service.search.SearchRequest;
@@ -24,8 +24,7 @@ import com.khayayphyu.utils.CommonUtils;
 
 @Component
 @Transactional(readOnly = true)
-public abstract class AbstractServiceImpl<T extends AbstractEntity, D extends AbstractDto<T>>
-		implements AbstractService<T, D> {
+public abstract class AbstractServiceImpl<T extends AbstractEntity>	implements AbstractService<T> {
 	
 	@Autowired
 	private GenericDao genericDao;
@@ -35,27 +34,19 @@ public abstract class AbstractServiceImpl<T extends AbstractEntity, D extends Ab
 	}
 
 	@Transactional(readOnly = false)
-	public void save(D d) {
+	public void save(T d) {
 		saveWithReturn(d);
 	}
 
 	@Transactional(readOnly = false)
-	public T saveWithReturn(D d) {
-		T entity = d.toEntity();
-		entity = getDao().save(entity);
-		d.setId(entity.getId());
-		return entity;
-	}
-
-	@Transactional(readOnly = false)
-	public T save(T t) {
-		return getDao().save(t);
+	public T saveWithReturn(T d) {
+		return getDao().save(d);
 	}
 
 	@Override
 	@Transactional(readOnly = false)
-	public Optional<String> saveWithValidation(D dto) {
-		save(dto);
+	public Optional<String> saveWithValidation(T entity) {
+		save(entity);
 		return Optional.empty();
 	}
 
@@ -65,68 +56,52 @@ public abstract class AbstractServiceImpl<T extends AbstractEntity, D extends Ab
 	}
 
 	@Transactional(readOnly = false)
-	public void save(D d, Consumer<D> consumer) {
+	public void save(T d, Consumer<T> consumer) {
 		consumer.accept(d);
 		save(d);
 	}
 
 	@Transactional(readOnly = false)
-	public void update(D d) {
-		if (d == null || d.getId() == null)
+	public void update(T entity) {
+		if (entity == null || entity.getId() == null)
 			return;
-		genericDao.update(d.toEntity());
+		genericDao.update(entity);
 	}
 
-	public D get(long id) {
-		return getDtoConvertor().apply(getDao().findById(id).get());
+	public T get(long id) {
+		return getDao().findById(id).get();
 	}
 
-	public List<D> getAll() {
-		return toStream(getDao().findAll()).map(getDtoConvertor()).collect(Collectors.toList());
+	public List<T> getAll() {
+		return CommonUtils.toList(getDao().findAll());
 	}
 
-	public List<D> getAll(Function<T, D> convertor) {
+	public <D> List<D> getAll(Function<T, D> convertor) {
 		if (convertor == null)
-			convertor = getDtoConvertor();
+			return Collections.emptyList();
+		
 		Iterable<T> entityList = getDao().findAll();
 		return toStream(entityList).map(convertor).collect(Collectors.toList());
 	}
 
-	public List<D> getAll(Comparator<D> sorter) {
-		List<D> entityList = getAll();
+	public List<T> getAll(Comparator<T> sorter) {
+		List<T> entityList = getAll();
 		entityList.sort(sorter);
 		return entityList;
-	}
-
-	protected D toDto(T t) {
-		return getDtoConvertor().apply(t);
-	}
-
-	protected D toDto(T t, Consumer<D> additionFunction) {
-		D d = toDto(t);
-		additionFunction.accept(d);
-		return d;
-	}
-
-	protected List<D> toDtos(List<T> t) {
-		return CommonUtils.mapToList(t, getDtoConvertor());
 	}
 
 	protected abstract CrudRepository<T, Long> getDao();
 
 	public abstract Class<T> getTargetClass();
 
-	public abstract Function<T, D> getDtoConvertor();
-
-	public List<D> search(SearchRequest<T, D> searchRequest) {
+	public List<T> search(SearchRequest<T> searchRequest) {
 		List<T> entityList = genericDao.search(searchRequest::generateQuery, getTargetClass());
 
-		return toDtos(entityList.stream().filter(searchRequest::filter).collect(Collectors.toList()));
+		return entityList.stream().filter(searchRequest::filter).collect(Collectors.toList());
 	}
 
-	public List<D> search(SearchRequest<T, D> searchRequest, Predicate<T> filter) {
+	public List<T> search(SearchRequest<T> searchRequest, Predicate<T> filter) {
 		List<T> entityList = genericDao.search(searchRequest::generateQuery, getTargetClass());
-
-		return toDtos(entityList.stream().filter(filter).collect(Collectors.toList()));
+		return entityList.stream().filter(filter).collect(Collectors.toList());
 	}
 }

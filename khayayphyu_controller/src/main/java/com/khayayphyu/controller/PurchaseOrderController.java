@@ -10,12 +10,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.khayayphyu.controller.util.RequiredPermission;
+import com.khayayphyu.entity.purchase.PurchaseOrder;
 import com.khayayphyu.service.purchase.PurchaseOrderService;
 import com.khayayphyu.service.search.PurchaseOrderSearchRequest;
 
 import jakarta.servlet.http.HttpServletRequest;
-
-import com.khayayphyu.dto.purchase.PurchaseOrderDto;
 
 @Controller
 @RequestMapping("purchase-order")
@@ -28,12 +27,12 @@ public class PurchaseOrderController extends AbstractController {
 	@RequiredPermission("purchase-order-setup")
 	public String getPurchaseOrderSetup(@RequestParam(value = "id", defaultValue = "0", required = false)Long id, Model model) {
 		if(id.longValue() > 0) {
-			PurchaseOrderDto purchaseOrderDto = purchaseOrderService.get(id);
+			PurchaseOrder purchaseOrderDto = purchaseOrderService.get(id);
 			model.addAttribute("purchaseOrderDto", purchaseOrderDto);
 			createPage("PurchaseOrder Edit", model);
 		}else {
 			createPage("PurchaseOrder Setup", model);
-			PurchaseOrderDto purchaseOrderDto = new PurchaseOrderDto();
+			PurchaseOrder purchaseOrderDto = new PurchaseOrder();
 			model.addAttribute("purchaseOrderDto", purchaseOrderDto);
 		}
 		model.addAttribute("purchaseOrderList", purchaseOrderService.getAll());
@@ -41,7 +40,7 @@ public class PurchaseOrderController extends AbstractController {
 	}
 	
 	@PostMapping("/setup")
-	public String postPurchaseOrderSetup(@ModelAttribute("purchaseOrderDto")PurchaseOrderDto purchaseOrderDto, Model model) {
+	public String postPurchaseOrderSetup(@ModelAttribute("purchaseOrderDto")PurchaseOrder purchaseOrderDto, Model model) {
 		purchaseOrderService.save(purchaseOrderDto);
 		return getPurchaseOrderSetup(purchaseOrderDto.getId(), model);
 	}

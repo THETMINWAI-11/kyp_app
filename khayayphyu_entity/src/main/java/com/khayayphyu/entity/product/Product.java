@@ -13,6 +13,7 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -21,22 +22,26 @@ import lombok.EqualsAndHashCode;
 
 @Entity
 @Data
-@Table(name = "Product")
+@Table(name = "product")
 @EqualsAndHashCode(callSuper = true)
 public class Product extends AbstractEntity {
 
 	@Column(name = "name")
 	private String productName;
 	
-	@JoinColumn(name = "sale_price")
+	@ManyToOne
+	@JoinColumn(name="item_id")
+	private Item item;
+	
 	@OneToOne
+	@JoinColumn(name = "sale_price")
 	private SalePrice salePrice;
 	
 	@Column(name = "quantity")
 	private int quantity;
 	
-	@JoinColumn(name = "purchase_price")
 	@OneToOne
+	@JoinColumn(name = "purchase_price")
 	private PurchasePrice purchasePrice;
 	
 	@Column(name = "packaging_type")

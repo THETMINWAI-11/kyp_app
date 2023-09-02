@@ -9,8 +9,6 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -24,7 +22,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.khayayphyu.dto.security.MenuDto;
+import com.khayayphyu.entity.security.Menu;
 import com.khayayphyu.service.security.MenuService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -43,7 +41,7 @@ public class Interceptor {
 	@Autowired
 	private MenuService menuService;
 
-	private static List<MenuDto> allMenuList;
+	private static List<Menu> allMenuList;
 	
 	//login is disabled.
 	@Around("within(com.khayayphyu.controller.*)")
@@ -116,28 +114,28 @@ public class Interceptor {
 		return "redirect:" + redirectPath;
 	}
 
-	private List<MenuDto> getMenuList() {
+	private List<Menu> getMenuList() {
 
 		if (CollectionUtils.isEmpty(allMenuList)) {
 			allMenuList = menuService.getAll();
 		}
-		List<MenuDto> parentMenuList = getParentMenu(allMenuList);
-		List<MenuDto> menuList = addChildMenu(getAllowedMenu(), parentMenuList);
+		List<Menu> parentMenuList = getParentMenu(allMenuList);
+		List<Menu> menuList = addChildMenu(getAllowedMenu(), parentMenuList);
 		return applyMenuSuffix(menuList);
 	}
 
-	private List<MenuDto> getParentMenu(List<MenuDto> allMenuList) {
+	private List<Menu> getParentMenu(List<Menu> allMenuList) {
 		return allMenuList.stream().filter(menu -> menu.getIsParent() == 1).collect(Collectors.toList());
 	}
 
-	private List<MenuDto> getAllowedMenu() {
+	private List<Menu> getAllowedMenu() {
 		return allMenuList;
 	}
 
-	private List<MenuDto> addChildMenu(List<MenuDto> menuList, List<MenuDto> parentMenu) {
-		Map<Long, MenuDto> map = parentMenu.stream()
+	private List<Menu> addChildMenu(List<Menu> menuList, List<Menu> parentMenu) {
+		Map<Long, Menu> map = parentMenu.stream()
 				.collect(Collectors.toMap(menu -> menu.getId(), Function.identity()));
-		List<MenuDto> allowedMenuList = new ArrayList<>();
+		List<Menu> allowedMenuList = new ArrayList<>();
 		menuList.forEach(menu -> {
 			if (menu.isParent()) {
 				allowedMenuList.add(menu);
@@ -157,7 +155,7 @@ public class Interceptor {
 		return ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
 	}
 
-	private List<MenuDto> applyMenuSuffix(List<MenuDto> menuList) {
+	private List<Menu> applyMenuSuffix(List<Menu> menuList) {
 		return menuList;
 	}
 }

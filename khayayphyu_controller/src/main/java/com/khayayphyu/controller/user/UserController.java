@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.khayayphyu.controller.AbstractController;
 import com.khayayphyu.controller.util.RequiredPermission;
-import com.khayayphyu.dto.user.UserDto;
+import com.khayayphyu.entity.user.User;
 import com.khayayphyu.service.search.UserSearchRequest;
 import com.khayayphyu.service.user.UserService;
 import com.khayayphyu.utils.type.UserRole;
@@ -29,12 +29,12 @@ public class UserController extends AbstractController {
 	@RequiredPermission("user-setup")
 	public String getUserSetup(@RequestParam(value = "id", defaultValue = "0", required = false) Long id, Model model) {
 		if (id.longValue() > 0) {
-			UserDto userDto = userService.get(id);
+			User userDto = userService.get(id);
 			model.addAttribute("userDto", userDto);
 			model.addAttribute("userRole", UserRole.values());
 			createPage("User Edit", model);
 		} else {
-			UserDto userDto = new UserDto();
+			User userDto = new User();
 			model.addAttribute("userDto", userDto);
 			model.addAttribute("userRole", UserRole.values());
 		}
@@ -43,7 +43,7 @@ public class UserController extends AbstractController {
 	}
 
 	@PostMapping("/setup")
-	public String postUserSetup(@ModelAttribute("userDto") UserDto userDto, Model model) {
+	public String postUserSetup(@ModelAttribute("user") User userDto, Model model) {
 		userService.save(userDto);
 		return getUserSetup(userDto.getId(), model);
 	}

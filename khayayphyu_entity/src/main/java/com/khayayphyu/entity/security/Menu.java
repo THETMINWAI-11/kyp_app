@@ -1,5 +1,6 @@
 package com.khayayphyu.entity.security;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.khayayphyu.entity.AbstractEntity;
 import com.khayayphyu.entity.convertor.BooleanConvertor;
 
@@ -14,7 +15,7 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @Entity
-@Table(name="Menu") 
+@Table(name="menu") 
 @EqualsAndHashCode(callSuper = true)
 public class Menu extends AbstractEntity {
 
@@ -46,6 +47,11 @@ public class Menu extends AbstractEntity {
 	@Column(name="AdminOnly")
 	@Convert(converter = BooleanConvertor.class)
 	private boolean adminOnly;
+	
+	@JsonIgnore
+	public boolean isParent() {
+		return this.isParent == 1;
+	}
 
 }
 

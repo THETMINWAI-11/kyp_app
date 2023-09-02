@@ -1,6 +1,5 @@
 package com.khayayphyu.service.search;
 
-import com.khayayphyu.dto.customer.CustomerDto;
 import com.khayayphyu.entity.customer.Customer;
 
 import lombok.Data;
@@ -8,7 +7,7 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class CustomerSearchRequest extends AbstractSearchRequest<Customer, CustomerDto> {
+public class CustomerSearchRequest extends AbstractSearchRequest<Customer> {
 	
 	private String customerName;
 	private StringBuffer buffer;

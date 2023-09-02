@@ -2,10 +2,9 @@ package com.khayayphyu.service.search;
 
 import java.util.Date;
 
-import com.khayayphyu.dto.AbstractDto;
 import com.khayayphyu.utils.date.DateUtil;
 
-public interface SearchRequest<T, D extends AbstractDto<?>> {
+public interface SearchRequest<T> {
 	public String generateQuery();
 
 	public String generateBaseQuery();

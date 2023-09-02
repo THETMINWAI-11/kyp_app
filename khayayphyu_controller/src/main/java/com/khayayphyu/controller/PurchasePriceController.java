@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.khayayphyu.controller.util.RequiredPermission;
-import com.khayayphyu.dto.purchase.PurchasePriceDto;
+import com.khayayphyu.entity.purchase.PurchasePrice;
 import com.khayayphyu.service.purchase.PurchasePriceService;
 import com.khayayphyu.service.search.PurchasePriceSearchRequest;
 
@@ -28,19 +28,19 @@ public class PurchasePriceController extends AbstractController {
 	public String getPurchasePriceSetup(@RequestParam(value = "id", defaultValue = "0", required = false) Long id,
 			Model model) {
 		if (id.longValue() > 0) {
-			PurchasePriceDto purchasePriceDto = purchasePriceService.get(id);
+			PurchasePrice purchasePriceDto = purchasePriceService.get(id);
 			model.addAttribute("purchasePriceDto", purchasePriceDto);
 			createPage("Purchase Price Edit", model);
 		} else {
 			createPage("Purchase Price Setup", model);
-			PurchasePriceDto purchasePriceDto = new PurchasePriceDto();
+			PurchasePrice purchasePriceDto = new PurchasePrice();
 			model.addAttribute("purchasePriceDto", purchasePriceDto);
 		}
 		return "purchase_price_setup";
 	}
 
 	@PostMapping("/setup")
-	public String postPurchasePriceSetup(@ModelAttribute("purchasePriceDto") PurchasePriceDto purchasePriceDto,
+	public String postPurchasePriceSetup(@ModelAttribute("purchasePriceDto") PurchasePrice purchasePriceDto,
 			Model model) {
 		purchasePriceService.save(purchasePriceDto);
 		return getPurchasePriceSetup(purchasePriceDto.getId(), model);

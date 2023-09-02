@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.khayayphyu.controller.AbstractController;
 import com.khayayphyu.controller.util.RequiredPermission;
-import com.khayayphyu.dto.product.ProductDto;
+import com.khayayphyu.entity.product.Product;
 import com.khayayphyu.service.product.ProductService;
 import com.khayayphyu.service.search.ProductSearchRequest;
 import com.khayayphyu.utils.type.ProductType;
@@ -29,13 +29,13 @@ public class ProductController extends AbstractController {
 	@RequiredPermission("product-setup")
 	public String getProductSetup(@RequestParam(value = "id", defaultValue = "0", required = false) Long id, Model model) {
 		if(id.longValue() > 0) {
-			ProductDto productDto = productService.getDetail(id); 
+			Product productDto = productService.getDetail(id); 
 			model.addAttribute("productDto", productDto);
 			model.addAttribute("productType", ProductType.values());
 			createPage("Product Edit", model);
 		}else {
 			createPage("Product Setup", model);
-			ProductDto productDto = new ProductDto();
+			Product productDto = new Product();
 			model.addAttribute("productDto", productDto);
 			model.addAttribute("productType", ProductType.values());
 		}
@@ -44,7 +44,7 @@ public class ProductController extends AbstractController {
 	}
 	
 	@PostMapping("/setup")
-	public String postProductSetup(@ModelAttribute("productDto") ProductDto productDto, Model model) {
+	public String postProductSetup(@ModelAttribute("productDto") Product productDto, Model model) {
 		productService.save(productDto);
 		return getProductSetup(productDto.getId(), model);
 	}

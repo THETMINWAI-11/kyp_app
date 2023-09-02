@@ -1,9 +1,8 @@
 package com.khayayphyu.service.search;
 
-import com.khayayphyu.dto.product.ProductDto;
 import com.khayayphyu.entity.product.Product;
 
-public class ProductSearchRequest implements SearchRequest<Product, ProductDto> {
+public class ProductSearchRequest implements SearchRequest<Product> {
 
 	private String productName;
 	private StringBuffer buffer;

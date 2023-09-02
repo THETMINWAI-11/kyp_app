@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.khayayphyu.controller.util.RequiredPermission;
-import com.khayayphyu.dto.sale.SalePriceDto;
+import com.khayayphyu.entity.sale.SalePrice;
 import com.khayayphyu.service.sale.SalePriceService;
 import com.khayayphyu.service.search.PurchasePriceSearchRequest;
 import com.khayayphyu.service.search.SalePriceSearchRequest;
@@ -28,19 +28,19 @@ public class SalePriceController extends AbstractController {
 	public String getSalePriceSetup(@RequestParam(value = "id", defaultValue = "0", required = false) Long id,
 			Model model) {
 		if (id.longValue() > 0) {
-			SalePriceDto salePriceDto = salePriceService.get(id);
+			SalePrice salePriceDto = salePriceService.get(id);
 			model.addAttribute("salePriceDto", salePriceDto);
 			createPage("Sale Price Edit", model);
 		} else {
 			createPage("Sale Price Setup", model);
-			SalePriceDto salePriceDto = new SalePriceDto();
+			SalePrice salePriceDto = new SalePrice();
 			model.addAttribute("salePriceDto", salePriceDto);
 		}
 		return "sale_price_setup";
 	}
 
 	@PostMapping("/setup")
-	public String postSalePriceSetup(@ModelAttribute("salePriceDto") SalePriceDto salePriceDto,
+	public String postSalePriceSetup(@ModelAttribute("salePriceDto") SalePrice salePriceDto,
 			Model model) {
 		salePriceService.save(salePriceDto);
 		return getSalePriceSetup(salePriceDto.getId(), model);

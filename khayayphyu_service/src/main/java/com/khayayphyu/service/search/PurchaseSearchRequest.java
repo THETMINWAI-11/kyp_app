@@ -5,7 +5,6 @@ import java.util.Date;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import com.khayayphyu.dto.purchase.PurchaseDto;
 import com.khayayphyu.entity.purchase.Purchase;
 import com.khayayphyu.utils.date.DateUtil;
 
@@ -14,7 +13,7 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class PurchaseSearchRequest implements SearchRequest<Purchase, PurchaseDto> {
+public class PurchaseSearchRequest implements SearchRequest<Purchase> {
 	
 	private String productName;
 	private String customerName;

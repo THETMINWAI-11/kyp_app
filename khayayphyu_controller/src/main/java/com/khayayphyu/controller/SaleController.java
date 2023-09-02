@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.khayayphyu.controller.util.RequiredPermission;
-import com.khayayphyu.dto.sale.SaleDto;
+import com.khayayphyu.entity.sale.Sale;
 import com.khayayphyu.service.sale.SaleOrderService;
 import com.khayayphyu.service.sale.SalePriceService;
 import com.khayayphyu.service.sale.SaleService;
@@ -31,9 +31,9 @@ public class SaleController extends AbstractController {
 	@RequiredPermission("sale-setup")
 	public String getSaleSetup(@RequestParam(value = "id", defaultValue = "0", required = false)Long id, Model model) {
 		if(id.longValue() > 0) {
-			SaleDto saleDto = saleService.get(id);
+			Sale saleDto = saleService.get(id);
 			model.addAttribute("saleDto", saleDto);
-			model.addAttribute("saleBy", saleService.getAll().get(0).getUser().getId());
+			model.addAttribute("saleBy", saleDto.getSaleBy());
 		}
 		return "sale_setup";
 	}
