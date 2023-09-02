@@ -4,7 +4,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
-	<link rel="stylesheet" type="text/css" href="resources/css/vendor.min.css"/>
+	<link rel="stylesheet" type="text/css" href="/resources/css/vendor.min.css"/>
 	
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400italic,500,700">
 	<link rel="stylesheet" type="text/css" href="/resources/css/elephant.min.css"/>
@@ -27,6 +27,9 @@
 	<div th:replace="~{left-menu}"></div>
 	<div th:replce="~{theme}" ></div>
 	<div class="layout-content">
+		<div class="layout-content-header" >
+			<h3 th:text="${pageName}" style="padding-left:10px;">Setup</h3>
+		</div>
 		<div class="layout-content-body">
 			<div th:replace="~{${page}}"></div>
 		</div>

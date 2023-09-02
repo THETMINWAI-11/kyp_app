@@ -841,10 +841,6 @@ $(document).ready(function() {
 		readURL(this, $(".placetype-photo"));
 	});
 	
-	$("#couponImage").change(function(e) {
-		e.preventDefault();
-		$(".coupon-preview").hide();
-		readURL(this, $(".coupon-photo"));
-	});
+	$(".select-2").select2();
 	
 });

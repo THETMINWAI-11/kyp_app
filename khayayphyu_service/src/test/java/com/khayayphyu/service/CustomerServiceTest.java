@@ -13,7 +13,6 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import com.khayayphyu.dao.customer.CustomerDao;
-import com.khayayphyu.dto.customer.CustomerDto;
 import com.khayayphyu.entity.customer.Customer;
 import com.khayayphyu.service.customer.CustomerService;
 
@@ -43,7 +42,6 @@ public class CustomerServiceTest {
 		Customer customer = new Customer();
 		customer.setCustomerName("Thet Min Wai");
 		customer.setAdress("Kyun Ywar");
-		customerService.save(CustomerDto.create(customer));
 	}
 
 }

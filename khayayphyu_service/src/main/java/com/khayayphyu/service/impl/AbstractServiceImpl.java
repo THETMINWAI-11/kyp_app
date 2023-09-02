@@ -28,14 +28,14 @@ public abstract class AbstractServiceImpl<T extends AbstractEntity>	implements A
 	
 	@Autowired
 	private GenericDao genericDao;
-
+	
 	public Stream<T> toStream(Iterable<T> list) {
 		return StreamSupport.stream(list.spliterator(), false);
 	}
 
 	@Transactional(readOnly = false)
 	public void save(T d) {
-		saveWithReturn(d);
+		d = saveWithReturn(d);
 	}
 
 	@Transactional(readOnly = false)

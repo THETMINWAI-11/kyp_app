@@ -1,0 +1,28 @@
+<div class="card" >
+	<div class="card-body">
+		<table class="table result-table" >
+			<thead>
+			<tr class="info">
+				<th>Name</th>
+				<th>Quantity</th>
+				<th>Product Type</th>
+				<th>Item</th>
+				<th width="70"></th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr th:each="product : ${productList}" >
+				<td th:text="${product.productName}"></td>
+				<td th:text="${product.quantity}"></td>
+				<td th:text="${product.productType}"></td>
+				<td th:text="${product.item != null ? product.item.name : ''}"></td>
+				<td>
+					<a th:href="${'/product/setup?id=' + product.id}" >
+						<span class="icon icon-pencil" ></span>
+					</a>
+				</td>
+			</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
